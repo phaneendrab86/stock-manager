@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+/* Removed @plugin and @custom-variant to resolve evaluation errors */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 10px;
+  --radius-md: 10px;
+  --radius-lg: 10px;
+  --radius-xl: 10px;
+  --radius-2xl: 10px;
+  --radius-3xl: 10px;
+  --radius-4xl: 10px;
+}
+
+:root {
+  --radius: 10px;
+  --background: oklch(0.99 0.005 240);
+  --foreground: oklch(0.15 0.02 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 240);
+  --primary: oklch(0.45 0.2 260);
+  --primary-foreground: oklch(0.98 0.01 260);
+  --secondary: oklch(0.96 0.01 240);
+  --secondary-foreground: oklch(0.15 0.02 240);
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.45 0.03 240);
+  --accent: oklch(0.92 0.02 240);
+  --accent-foreground: oklch(0.15 0.02 240);
+  --destructive: oklch(0.6 0.2 25);
+  --border: oklch(0.9 0.01 240);
+  --input: oklch(0.9 0.01 240);
+  --ring: oklch(0.45 0.2 260 / 30%);
+  --chart-1: oklch(0.45 0.2 260);
+  --chart-2: oklch(0.6 0.15 180);
+  --chart-3: oklch(0.5 0.1 220);
+  --chart-4: oklch(0.7 0.12 60);
+  --chart-5: oklch(0.65 0.15 30);
+  --sidebar: oklch(0.98 0.005 240);
+  --sidebar-foreground: oklch(0.15 0.02 240);
+  --sidebar-primary: oklch(0.45 0.2 260);
+  --sidebar-primary-foreground: oklch(0.98 0.01 260);
+  --sidebar-accent: oklch(0.94 0.01 240);
+  --sidebar-accent-foreground: oklch(0.15 0.02 240);
+  --sidebar-border: oklch(0.92 0.01 240);
+  --sidebar-ring: oklch(0.45 0.2 260 / 20%);
+}
+
+.dark {
+  --background: oklch(0.12 0.02 240);
+  --foreground: oklch(0.95 0.01 240);
+  --card: oklch(0.15 0.025 240);
+  --card-foreground: oklch(0.95 0.01 240);
+  --popover: oklch(0.15 0.025 240);
+  --popover-foreground: oklch(0.95 0.01 240);
+  --primary: oklch(0.65 0.18 260);
+  --primary-foreground: oklch(0.1 0.02 260);
+  --secondary: oklch(0.2 0.03 240);
+  --secondary-foreground: oklch(0.95 0.01 240);
+  --muted: oklch(0.2 0.03 240);
+  --muted-foreground: oklch(0.65 0.03 240);
+  --accent: oklch(0.22 0.03 240);
+  --accent-foreground: oklch(0.95 0.01 240);
+  --destructive: oklch(0.55 0.2 25);
+  --border: oklch(0.25 0.03 240);
+  --input: oklch(0.25 0.03 240);
+  --ring: oklch(0.65 0.18 260 / 40%);
+  --sidebar: oklch(0.13 0.025 240);
+  --sidebar-foreground: oklch(0.95 0.01 240);
+  --sidebar-primary: oklch(0.65 0.18 260);
+  --sidebar-primary-foreground: oklch(0.95 0.01 240);
+  --sidebar-accent: oklch(0.18 0.03 240);
+  --sidebar-accent-foreground: oklch(0.95 0.01 240);
+  --sidebar-border: oklch(0.22 0.03 240);
+  --sidebar-ring: oklch(0.65 0.18 260 / 30%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .bento-card {
+    @apply bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm rounded-3xl overflow-hidden;
+  }
+
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-indigo-500 to-violet-600;
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50;
+  }
+
+  /* Draft card hover: slide-in loadList from left */
+  .draftcard {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .draftcard .loadList {
+    position: absolute;
+    width:50px;
+    inset: 0;
+    transform: translateX(-105%);
+    opacity: 0;
+    transition: transform 220ms cubic-bezier(.2,.8,.2,1), opacity 180ms ease;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .draftcard:hover .loadList,
+  .group:hover .loadList {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@layer utilities {
+  @media print {
+
+    /* Hide UI elements */
+    .no-print,
+    aside,
+    nav,
+    header,
+    button,
+    footer,
+    [role="navigation"],
+    [data-sidebar="sidebar"],
+    [data-sidebar="sidebar-wrapper"],
+    .sidebar-provider,
+    .sidebar-inset header,
+    .sidebar-trigger,
+    [role="dialog"],
+    [data-radix-portal],
+    .DialogOverlay,
+    [data-state="open"] .DialogContent,
+    .DialogOverlay,
+    [role="dialog"],
+    [data-radix-portal],
+    .toaster,
+    .sonner-toast {
+      display: none !important;
+    }
+
+    /* Reset layout for print */
+    body,
+    main,
+    .print-container {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      color: black !important;
+      width: 100% !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* Specific Invoice Styling */
+    .invoice-box {
+      max-width: 800px;
+      margin: auto;
+      border: none !important;
+      padding: 0 !important;
+    }
+
+    /* Ensure text visibility */
+    .text-muted-foreground {
+      color: #666 !important;
+    }
+
+    /* Link clean up */
+    a[href]:after {
+      content: none !important;
+    }
+
+    /* Force page breaks */
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Remove pointer-events for safety */
+    * {
+      pointer-events: none !important;
+    }
+  }
+}
