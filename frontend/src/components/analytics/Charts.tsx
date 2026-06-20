@@ -16,7 +16,6 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-    HorizontalBarChart,
 } from "recharts";
 
 const COLORS = ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444", "#06b6d4"];
