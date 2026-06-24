@@ -647,7 +647,7 @@ export default function BillingPage() {
                                         )}
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent className="sm:max-w-md p-6 pr-8">
+                                <SheetContent className="sm:max-w-md p-4 pr-6 pt-2 gap-0">
                                     <SheetHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
                                         <SheetTitle className="text-xl font-bold flex items-center gap-2">
                                             <List className="h-5 w-5 text-orange-500" />
@@ -657,7 +657,7 @@ export default function BillingPage() {
                                             Previously saved bills that haven't been finalized yet. Click the load button to restore them.
                                         </SheetDescription>
                                     </SheetHeader>
-                                    <ScrollArea className="h-[calc(100vh-160px)] pr-4 mt-4 -mr-4">
+                                    <ScrollArea className="h-[calc(100vh-160px)] pr-4 mt-2 -mr-4">
                                         <div className="space-y-2 py-2">
                                             {drafts.length === 0 ? (
                                                 <div className="text-center py-20 opacity-40 space-y-2">
