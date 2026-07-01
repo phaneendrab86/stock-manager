@@ -7,9 +7,14 @@ import { RewardSettingsModule } from '../reward-settings/reward-settings.module'
 import { GiftAllocationModule } from '../gift-allocation/gift-allocation.module';
 
 @Module({
-    imports: [PrismaModule, CouponsModule, RewardSettingsModule, GiftAllocationModule],
-    controllers: [InvoicesController],
-    providers: [InvoicesService],
-    exports: [InvoicesService],
+  imports: [
+    PrismaModule,
+    CouponsModule,
+    RewardSettingsModule,
+    GiftAllocationModule,
+  ],
+  controllers: [InvoicesController],
+  providers: [InvoicesService],
+  exports: [InvoicesService],
 })
-export class InvoicesModule { }
+export class InvoicesModule {}

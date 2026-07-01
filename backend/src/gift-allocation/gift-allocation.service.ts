@@ -63,14 +63,14 @@ export class GiftAllocationService {
 
     // Random approach: pick exactly ONE random gift from the available eligible gifts
     const allocations: GiftAllocation[] = [];
-    
+
     // Pick one random gift
     const randomIndex = Math.floor(Math.random() * availableGifts.length);
     const randomGift = availableGifts[randomIndex];
 
     // Determine quantity (at least 1, up to what maxGiftValue allows)
     const quantity = Math.floor(maxGiftValue / randomGift.giftValue);
-    
+
     if (quantity > 0) {
       const value = quantity * randomGift.giftValue;
       allocations.push({
@@ -82,7 +82,8 @@ export class GiftAllocationService {
       });
     }
 
-    const remainingValue = maxGiftValue - (allocations.length > 0 ? allocations[0].value : 0);
+    const remainingValue =
+      maxGiftValue - (allocations.length > 0 ? allocations[0].value : 0);
     const totalValue = maxGiftValue - remainingValue;
 
     return {

@@ -4,7 +4,7 @@ import { RemindersModule } from '../reminders/reminders.module';
 import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-    imports: [RemindersModule, NotificationsModule],
-    providers: [SchedulerService],
+  imports: [RemindersModule, NotificationsModule],
+  providers: [SchedulerService],
 })
-export class SchedulerSettingsModule { }
+export class SchedulerSettingsModule {}

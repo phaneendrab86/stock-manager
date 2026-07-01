@@ -5,10 +5,10 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @Controller('audit-logs')
 @UseGuards(JwtAuthGuard)
 export class AuditLogController {
-    constructor(private readonly auditLogService: AuditLogService) { }
+  constructor(private readonly auditLogService: AuditLogService) {}
 
-    @Get()
-    findAll() {
-        return this.auditLogService.findAll();
-    }
+  @Get()
+  findAll() {
+    return this.auditLogService.findAll();
+  }
 }

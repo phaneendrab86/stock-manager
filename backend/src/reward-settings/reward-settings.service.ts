@@ -20,7 +20,7 @@ export class RewardSettingsService {
 
   async getSettings() {
     let settings = await this.prisma.rewardSettings.findFirst();
-    
+
     // Create default settings if none exist
     if (!settings) {
       settings = await this.prisma.rewardSettings.create({
@@ -37,13 +37,13 @@ export class RewardSettingsService {
         },
       });
     }
-    
+
     return settings;
   }
 
   async updateSettings(data: Partial<RewardSettingsDto>) {
     const settings = await this.getSettings();
-    
+
     // Validate that only one mode is active at a time
     if (data.mode && data.mode !== 'NONE') {
       // Ensure exclusivity of modes
@@ -86,7 +86,9 @@ export class RewardSettingsService {
       };
     }
 
-    const allowedPayments = settings.allowedPaymentModes.split(',').map(p => p.trim());
+    const allowedPayments = settings.allowedPaymentModes
+      .split(',')
+      .map((p) => p.trim());
     if (!allowedPayments.includes(paymentMode)) {
       return {
         isEligible: false,
@@ -95,7 +97,9 @@ export class RewardSettingsService {
       };
     }
 
-    const allowedTypes = settings.allowedBillingTypes.split(',').map(t => t.trim());
+    const allowedTypes = settings.allowedBillingTypes
+      .split(',')
+      .map((t) => t.trim());
     if (!allowedTypes.includes(billingType)) {
       return {
         isEligible: false,

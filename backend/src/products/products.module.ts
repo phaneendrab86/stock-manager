@@ -5,8 +5,8 @@ import { ProductsController } from './products.controller';
 import { AuditLogModule } from '../audit-log/audit-log.module';
 
 @Module({
-    imports: [AuditLogModule],
-    controllers: [ProductsController],
-    providers: [ProductsService],
+  imports: [AuditLogModule],
+  controllers: [ProductsController],
+  providers: [ProductsService],
 })
-export class ProductsModule { }
+export class ProductsModule {}

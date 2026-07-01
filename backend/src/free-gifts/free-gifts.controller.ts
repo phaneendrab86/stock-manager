@@ -10,7 +10,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { FreeGiftsService } from './free-gifts.service';
-import type { CreateFreeGiftDto, UpdateFreeGiftDto } from './free-gifts.service';
+import type {
+  CreateFreeGiftDto,
+  UpdateFreeGiftDto,
+} from './free-gifts.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('admin/rewards/gifts')

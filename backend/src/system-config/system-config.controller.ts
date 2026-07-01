@@ -5,15 +5,15 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @Controller('system-config')
 @UseGuards(JwtAuthGuard)
 export class SystemConfigController {
-    constructor(private readonly systemConfigService: SystemConfigService) { }
+  constructor(private readonly systemConfigService: SystemConfigService) {}
 
-    @Get()
-    getConfig() {
-        return this.systemConfigService.getConfig();
-    }
+  @Get()
+  getConfig() {
+    return this.systemConfigService.getConfig();
+  }
 
-    @Patch()
-    updateConfig(@Body() data: any) {
-        return this.systemConfigService.updateConfig(data);
-    }
+  @Patch()
+  updateConfig(@Body() data: any) {
+    return this.systemConfigService.updateConfig(data);
+  }
 }

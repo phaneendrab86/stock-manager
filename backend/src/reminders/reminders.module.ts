@@ -4,9 +4,9 @@ import { RemindersController } from './reminders.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [RemindersController],
-    providers: [RemindersService],
-    exports: [RemindersService],
+  imports: [PrismaModule],
+  controllers: [RemindersController],
+  providers: [RemindersService],
+  exports: [RemindersService],
 })
-export class RemindersModule { }
+export class RemindersModule {}

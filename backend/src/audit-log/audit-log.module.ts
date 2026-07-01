@@ -4,9 +4,9 @@ import { AuditLogController } from './audit-log.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [AuditLogController],
-    providers: [AuditLogService],
-    exports: [AuditLogService],
+  imports: [PrismaModule],
+  controllers: [AuditLogController],
+  providers: [AuditLogService],
+  exports: [AuditLogService],
 })
-export class AuditLogModule { }
+export class AuditLogModule {}
