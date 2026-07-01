@@ -9,7 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { GiftSlabsService } from './gift-slabs.service';
-import type { CreateGiftSlabDto, UpdateGiftSlabDto } from './gift-slabs.service';
+import type {
+  CreateGiftSlabDto,
+  UpdateGiftSlabDto,
+} from './gift-slabs.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('admin/rewards/slabs')

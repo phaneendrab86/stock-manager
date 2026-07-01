@@ -60,4 +60,4 @@ import { GiftAllocationModule } from './gift-allocation/gift-allocation.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

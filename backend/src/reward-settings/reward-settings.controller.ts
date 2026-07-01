@@ -1,5 +1,8 @@
 import { Controller, Get, Put, Body, UseGuards } from '@nestjs/common';
-import { RewardSettingsService, RewardSettingsDto } from './reward-settings.service';
+import {
+  RewardSettingsService,
+  RewardSettingsDto,
+} from './reward-settings.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('admin/rewards')

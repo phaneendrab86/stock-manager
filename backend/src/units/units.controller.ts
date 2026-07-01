@@ -5,15 +5,15 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('units')
 export class UnitsController {
-    constructor(private readonly unitsService: UnitsService) { }
+  constructor(private readonly unitsService: UnitsService) {}
 
-    @Get()
-    findAll() {
-        return this.unitsService.findAll();
-    }
+  @Get()
+  findAll() {
+    return this.unitsService.findAll();
+  }
 
-    @Post()
-    create(@Body() body: any) {
-        return this.unitsService.create(body);
-    }
+  @Post()
+  create(@Body() body: any) {
+    return this.unitsService.create(body);
+  }
 }

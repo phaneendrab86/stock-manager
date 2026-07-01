@@ -104,10 +104,7 @@ export class FreeGiftsService {
       where: {
         status: 'ACTIVE',
         giftValue: { lte: maxValue },
-        OR: [
-          { validTo: null },
-          { validTo: { gte: new Date() } },
-        ],
+        OR: [{ validTo: null }, { validTo: { gte: new Date() } }],
       },
       include: { product: true },
       orderBy: [{ priority: 'asc' }, { giftValue: 'desc' }],

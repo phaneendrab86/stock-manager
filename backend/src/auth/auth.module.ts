@@ -10,17 +10,17 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AuditLogModule } from '../audit-log/audit-log.module';
 
 @Module({
-    imports: [
-        PrismaModule,
-        AuditLogModule,
-        PassportModule,
-        JwtModule.register({
-            secret: jwtConstants.secret,
-            signOptions: { expiresIn: jwtConstants.expiresIn as any },
-        }),
-    ],
-    providers: [AuthService, JwtStrategy],
-    controllers: [AuthController],
-    exports: [AuthService],
+  imports: [
+    PrismaModule,
+    AuditLogModule,
+    PassportModule,
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: jwtConstants.expiresIn as any },
+    }),
+  ],
+  providers: [AuthService, JwtStrategy],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

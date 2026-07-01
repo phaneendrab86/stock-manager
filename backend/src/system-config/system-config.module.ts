@@ -4,9 +4,9 @@ import { SystemConfigController } from './system-config.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [SystemConfigController],
-    providers: [SystemConfigService],
-    exports: [SystemConfigService],
+  imports: [PrismaModule],
+  controllers: [SystemConfigController],
+  providers: [SystemConfigService],
+  exports: [SystemConfigService],
 })
-export class SystemConfigModule { }
+export class SystemConfigModule {}

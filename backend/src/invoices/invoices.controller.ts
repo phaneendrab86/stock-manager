@@ -5,15 +5,15 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('invoices')
 export class InvoicesController {
-    constructor(private readonly invoicesService: InvoicesService) { }
+  constructor(private readonly invoicesService: InvoicesService) {}
 
-    @Get()
-    findAll() {
-        return this.invoicesService.findAll();
-    }
+  @Get()
+  findAll() {
+    return this.invoicesService.findAll();
+  }
 
-    @Post()
-    create(@Body() body: any) {
-        return this.invoicesService.create(body);
-    }
+  @Post()
+  create(@Body() body: any) {
+    return this.invoicesService.create(body);
+  }
 }

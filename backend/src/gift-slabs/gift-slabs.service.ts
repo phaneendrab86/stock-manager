@@ -122,7 +122,7 @@ export class GiftSlabsService {
 
   async remove(id: string) {
     await this.findOne(id);
-    
+
     // Soft delete by marking as inactive instead of hard delete
     return this.prisma.giftSlab.update({
       where: { id },
