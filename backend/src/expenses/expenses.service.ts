@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 // import { ExpenseStatus, PaymentMode } from '@prisma/client';
 import { AuditLogService } from '../audit-log/audit-log.service';
@@ -24,6 +24,58 @@ export class ExpensesService {
 
     async findCategories() {
         return this.prisma.expenseCategory.findMany();
+    }
+
+    // async createCategory(name: string, userId: string) {
+    //     const category = await this.prisma.expenseCategory.create({
+    //         data: { name }
+    //     });
+    //     await this.auditLog.createLog(userId, 'CATEGORY_CREATE', `Created expense category: ${name}`);
+    //     return category;
+    // }
+    // In your expenses.service.ts
+    async createCategory(createCategoryDto: { name: string }, userId: string) {
+        const existing = await this.prisma.expenseCategory.findUnique({
+            where: { name: createCategoryDto.name },
+        });
+    
+        if (existing) {
+            throw new BadRequestException('Category with this name already exists.');
+        }
+    
+        const category = await this.prisma.expenseCategory.create({
+            data: createCategoryDto,
+        });
+    
+        await this.auditLog.createLog(userId, 'CATEGORY_CREATE', `Created expense category: ${category.name}`);
+        return category;
+    }
+
+    async updateCategory(id: string, updateCategoryDto: { name: string }, userId: string) {
+        const categoryToUpdate = await this.prisma.expenseCategory.findUnique({ where: { id } });
+        if (!categoryToUpdate) {
+            throw new NotFoundException(`Category with ID ${id} not found.`);
+        }
+
+        const updatedCategory = await this.prisma.expenseCategory.update({
+            where: { id },
+            data: { name: updateCategoryDto.name },
+        });
+
+        await this.auditLog.createLog(userId, 'CATEGORY_UPDATE', `Updated expense category from "${categoryToUpdate.name}" to "${updatedCategory.name}"`);
+        return updatedCategory;
+    }
+
+    async deleteCategory(id: string, userId: string) {
+        const expenseCount = await this.prisma.expense.count({ where: { categoryId: id } });
+        if (expenseCount > 0) {
+            throw new BadRequestException('Cannot delete category as it is associated with existing expenses.');
+        }
+        const category = await this.prisma.expenseCategory.delete({
+            where: { id }
+        });
+        await this.auditLog.createLog(userId, 'CATEGORY_DELETE', `Deleted expense category: ${category.name}`);
+        return category;
     }
 
     async create(data: any, userId: string) {

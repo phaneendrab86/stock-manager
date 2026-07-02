@@ -51,12 +51,12 @@ export default function ProductDetailsPage() {
                     <ProductForm id={id} />
                 </TabsContent>
 
-                <TabsContent value="history" className="mt-0 border-none outline-none">
-                    <Card className="border-none shadow-xl rounded-[32px] overflow-hidden">
+                <TabsContent value="history" className="mt-0 border-none outline-none pt-0">
+                    <Card className="border-none shadow-xl rounded-[32px] overflow-hidden pt-0">
                         <div className="bg-indigo-600 p-6 text-white flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <Receipt className="h-6 w-6 text-indigo-200" />
-                                <h3 className="text-xl font-black italic">Supply Chain History</h3>
+                                <h3 className="text-xl font-black italic">Supply Chain History 123</h3>
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 px-3 py-1 rounded-full">
                                 {purchaseHistory?.length || 0} Records Found

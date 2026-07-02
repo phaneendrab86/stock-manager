@@ -19,6 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { CustomerForm } from "@/components/customers/CustomerForm";
+// import { DynamicPrintReceipt, DEFAULT_PRINT_TEMPLATE } from "@/components/billing/DynamicPrintReceipt";
 
 const getProductPrice = (product: any, type: BillingType) => {
     return product.prices?.find((p: any) => p.billingType === type)?.price || 0;
@@ -647,7 +648,7 @@ export default function BillingPage() {
                                         )}
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent className="sm:max-w-md p-4 pr-6 pt-2 gap-0">
+                                <SheetContent className="sm:max-w-md p-4 pr-6 gap-2">
                                     <SheetHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
                                         <SheetTitle className="text-xl font-bold flex items-center gap-2">
                                             <List className="h-5 w-5 text-orange-500" />
@@ -657,8 +658,8 @@ export default function BillingPage() {
                                             Previously saved bills that haven't been finalized yet. Click the load button to restore them.
                                         </SheetDescription>
                                     </SheetHeader>
-                                    <ScrollArea className="h-[calc(100vh-160px)] pr-4 mt-2 -mr-4">
-                                        <div className="space-y-2 py-2">
+                                    <ScrollArea className="h-[calc(100vh-160px)] pr-4 -mr-4">
+                                        <div className="space-y-2 py-1">
                                             {drafts.length === 0 ? (
                                                 <div className="text-center py-20 opacity-40 space-y-2">
                                                     <List className="h-10 w-10 mx-auto text-slate-400" />
@@ -1061,9 +1062,11 @@ export default function BillingPage() {
                                             {activePaymentModes.includes(PaymentMode.CREDIT) && (
                                                 <Button variant="ghost" size="sm" className="h-4 text-[8px] text-rose-950 p-0 hover:bg-transparent" onClick={() => setCreditReceived(netTotal)}>Full Credit</Button>
                                             )}
+                                            
                                         </div>
 
                                     </div>
+                                    
                                 </div>
                             </div>
 
@@ -1143,13 +1146,20 @@ export default function BillingPage() {
                         <Printer className="mr-1.5 h-3.5 w-3.5" /> Print
                     </Button>
                     <Button
-                        className="flex-[2] md:flex-none h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-xl rounded-xl group active:scale-[0.98] transition-all text-base"
-                        disabled={cart.length === 0 || (!activePaymentModes.includes(PaymentMode.CREDIT) && balance < -0.01)}
-                        onClick={handleCompleteBilling}
-                    >
-                        <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
-                        Final Bill
-                    </Button>
+    className="flex-[2] md:flex-none h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-xl rounded-xl group active:scale-[0.98] transition-all text-base"
+    disabled={
+        cart.length === 0 ||
+        (
+            balance < -0.01 &&
+            balance !== 5 &&
+            !activePaymentModes.includes(PaymentMode.CREDIT)
+        )
+    }
+    onClick={handleCompleteBilling}
+>
+    <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+    Final Bill
+</Button>
                 </div>
             </div>
 
@@ -1283,6 +1293,11 @@ export default function BillingPage() {
                     <p className="text-[8px]">Please visit again</p>
                 </div>
             </div >
+            {/* Redesigned Dynamic Print Receipt */}
+            {/* <DynamicPrintReceipt 
+                invoice={lastInvoice} 
+                template={DEFAULT_PRINT_TEMPLATE} 
+            /> */}
         </>
     );
 }

@@ -61,11 +61,11 @@ export default function ReportsDashboard() {
                 <p className="text-muted-foreground text-sm">Access detailed data and exportable files for your business operations.</p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-4">
                 {reportCards.map((report) => (
-                    <Card key={report.title} className="group relative overflow-hidden border-none shadow-sm ring-1 ring-slate-200/50 dark:ring-slate-800/50 bg-white dark:bg-slate-900/50 hover:shadow-md transition-all">
-                        <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                            <div className={`h-12 w-12 rounded-2xl ${report.bg} ${report.border} border flex items-center justify-center transition-transform group-hover:scale-110`}>
+                    <Card key={report.title} className="group relative overflow-hidden border-none shadow-sm ring-1 ring-slate-200/50 dark:ring-slate-800/50 bg-white dark:bg-slate-900/50 hover:shadow-md transition-all gap-0">
+                        <CardHeader className="flex flex-row  gap-3 pb-2">
+                            <div className={`h-12 w-20 rounded-2xl ${report.bg} ${report.border} border flex items-center justify-center transition-transform group-hover:scale-110`}>
                                 <report.icon className={`h-6 w-6 ${report.color}`} />
                             </div>
                             <div>

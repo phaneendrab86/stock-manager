@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Search, Receipt, Wallet, Filter, Loader2, Calendar, Check, X, Tag, MoreVertical } from "lucide-react";
@@ -13,12 +13,18 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 export default function ExpensesPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState("");
+    const [editingCategory, setEditingCategory] = useState<any>(null);
+    const [isEditCategoryOpen, setIsEditCategoryOpen] = useState(false);
+    const [editedCategoryName, setEditedCategoryName] = useState("");
+    const [deletingCategory, setDeletingCategory] = useState<any>(null);
+    const [isDeleteCategoryOpen, setIsDeleteCategoryOpen] = useState(false);
 
     const { data: expenses, isLoading, refetch } = useQuery({
         queryKey: ["expenses"],
@@ -28,7 +34,7 @@ export default function ExpensesPage() {
         }
     });
 
-    const { data: categories } = useQuery({
+    const { data: categories, refetch: refetchCategories } = useQuery({
         queryKey: ["expense-categories"],
         queryFn: async () => {
             const { data } = await api.get("/expenses/categories");
@@ -53,8 +59,65 @@ export default function ExpensesPage() {
             setIsAddOpen(false);
             setNewExpense({ title: "", categoryId: "", amount: "", paymentMode: "CASH" });
             refetch();
-        } catch (e) {
-            toast.error("Failed to record expense");
+        } catch (e: any) {
+            console.error("Error creating expense:", e.response?.data || e.message);
+            toast.error(e.response?.data?.message || "Failed to record expense");
+        }
+    };
+
+    const handleCreateCategory = async () => {
+        if (!newCategoryName.trim()) {
+            toast.error("Category name cannot be empty");
+            return;
+        }
+        try {
+            await api.post("/expenses/categories", { name: newCategoryName });
+            toast.success("Category created successfully!");
+            setNewCategoryName("");
+            refetchCategories();
+        } catch (e: any) {
+            console.error("Error creating category:", e.response?.data || e.message);
+            toast.error(e.response?.data?.message || "Failed to create category");
+        }
+    };
+
+    const handleEditCategory = (category: any) => {
+        setEditingCategory(category);
+        setEditedCategoryName(category.name);
+        setIsEditCategoryOpen(true);
+    };
+
+    const handleUpdateCategory = async () => {
+        if (!editingCategory || !editedCategoryName.trim()) {
+            toast.error("Category name cannot be empty");
+            return;
+        }
+        try {
+            await api.put(`/expenses/categories/${editingCategory.id}`, { name: editedCategoryName });
+            toast.success("Category updated successfully!");
+            setIsEditCategoryOpen(false);
+            setEditingCategory(null);
+            refetchCategories();
+        } catch (e: any) {
+            toast.error(e.response?.data?.message || "Failed to update category");
+        }
+    };
+
+    const openDeleteCategoryDialog = (category: any) => {
+        setDeletingCategory(category);
+        setIsDeleteCategoryOpen(true);
+    };
+
+    const handleDeleteCategory = async (id: string) => {
+        try {
+            await api.delete(`/expenses/categories/${id}`);
+            toast.success("Category deleted successfully!");
+            refetchCategories();
+            setIsDeleteCategoryOpen(false);
+            setDeletingCategory(null);
+        } catch (e: any) {
+            console.error("Error deleting category:", e.response?.data || e.message);
+            toast.error(e.response?.data?.message || "Failed to delete category");
         }
     };
 
@@ -167,7 +230,7 @@ export default function ExpensesPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <Card className="border-none shadow-sm bg-primary/5 ring-1 ring-primary/10">
                     <CardHeader className="pb-2">
                         <div className="flex items-center justify-between">
@@ -238,7 +301,7 @@ export default function ExpensesPage() {
                                 <TableCell colSpan={7} className="text-center py-20 text-muted-foreground">No expenses recorded yet.</TableCell>
                             </TableRow>
                         ) : (
-                            expenses?.filter((exp: any) => exp.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                            expenses?.filter((exp: any) => (exp.title || "").toLowerCase().includes(searchQuery.toLowerCase()))
                                 .map((expense: any) => (
                                     <TableRow key={expense.id} className="group hover:bg-slate-100/30 dark:hover:bg-slate-800/30">
                                         <TableCell className="pl-6 py-4">
@@ -311,20 +374,76 @@ export default function ExpensesPage() {
                     </DialogHeader>
                     <div className="space-y-4 pt-4">
                         <div className="flex gap-2">
-                            <Input placeholder="New category name..." />
-                            <Button size="icon"><Plus className="h-4 w-4" /></Button>
+                            <Input
+                                placeholder="New category name..."
+                                value={newCategoryName}
+                                onChange={(e) => setNewCategoryName(e.target.value)}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleCreateCategory();
+                                    }
+                                }}
+                            />
+                            <Button size="icon" onClick={handleCreateCategory}><Plus className="h-4 w-4" /></Button>
                         </div>
                         <div className="border rounded-lg divide-y bg-zinc-50 dark:bg-zinc-900/50">
                             {categories?.map((cat: any) => (
-                                <div key={cat.id} className="p-3 text-sm flex justify-between items-center group">
+                                <div key={cat.id} className="px-3 py-2 text-sm flex justify-between items-center group">
                                     <span>{cat.name}</span>
-                                    <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive opacity-0 group-hover:opacity-100">
-                                        <X className="h-3 w-3" />
-                                    </Button>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100">
+                                                <MoreVertical className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuItem onClick={() => handleEditCategory(cat)}>
+                                                Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem className="text-destructive" onClick={() => openDeleteCategoryDialog(cat)}>Delete</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             ))}
                         </div>
                     </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Edit Category Dialog */}
+            <Dialog open={isEditCategoryOpen} onOpenChange={setIsEditCategoryOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Expense Category</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 pt-4">
+                        <Input
+                            value={editedCategoryName}
+                            onChange={(e) => setEditedCategoryName(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleUpdateCategory()}
+                        />
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsEditCategoryOpen(false)}>Cancel</Button>
+                        <Button onClick={handleUpdateCategory}>Save Changes</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Delete Category Confirmation */}
+            <Dialog open={isDeleteCategoryOpen} onOpenChange={setIsDeleteCategoryOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Are you sure?</DialogTitle>
+                        <DialogDescription>
+                            This will permanently delete the <strong>{deletingCategory?.name}</strong> category. This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsDeleteCategoryOpen(false)}>Cancel</Button>
+                        <Button variant="destructive" disabled={!deletingCategory} onClick={() => deletingCategory && handleDeleteCategory(deletingCategory.id)}>Delete</Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </div>
